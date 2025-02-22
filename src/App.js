@@ -7,7 +7,7 @@ const MQTTComponent = () => {
   const [receivedMessage, setReceivedMessage] = useState('');
 
   useEffect(() => {
-    const newClient = mqtt.connect('mqtt://asgoerni-iot-hub.azure-devices.net:1883');
+    const newClient = mqtt.connect('asgoerni-iot-hub.azure-devices.net:8883');
 
     newClient.on('connect', () => {
       console.log('connected');

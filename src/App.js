@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import mqtt from 'mqtt';
 
-function App() {
+const MQTTComponent = () => {
+  const [client, setClient] = useState(null);
+  const [message, setMessage] = useState('');
+  const [receivedMessage, setReceivedMessage] = useState('');
+
+  useEffect(() => {
+    const newClient = mqtt.connect('mqtt://asgoerni-iot-hub.azure-devices.net:1883');
+
+    newClient.on('connect', () => {
+      console.log('connected');
+      newClient.subscribe('devices/esp32_led/messages/events', (err) => {
+        if (!err) {
+          console.log('subscribed to devices/esp32_led/messages/events');
+        }
+      });
+    });
+
+    newClient.on('message', (topic, payload) => {
+      console.log('message received:', payload.toString());
+      setReceivedMessage(payload.toString());
+    });
+    setClient(newClient)
+    return () => {
+        newClient.end()
+    }
+  }, []);
+
+  const publishMessage = () => {
+    if (client) {
+      client.publish('devices/esp32_led/messages/events', message);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Hello World!
-        </a>
-      </header>
+    <div>
+      <h2>MQTT Example</h2>
+      <input
+        type="text"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button onClick={publishMessage}>Publish</button>
+      <p>Received Message: {receivedMessage}</p>
     </div>
   );
-}
+};
 
-export default App;
+export default MQTTComponent;
+

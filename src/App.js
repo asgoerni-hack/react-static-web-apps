@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import mqtt from '../node_modules/mqtt/dist/mqtt';
-
+// import mqtt from '../node_modules/mqtt/dist/mqtt';
+import mqtt from 'mqtt';
 
 function App() {
   return (

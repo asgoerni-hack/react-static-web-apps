@@ -35,5 +35,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "scripts": {
+    "link-mqtt": "node_modules/.bin/symlink-dir ../node_modules/mqtt/dist/mqtt src/mqtt",
+    "postinstall": "npm run link-mqtt"
   }
 }

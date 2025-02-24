@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-// import mqtt from './mqtt/dist/mqtt';
 import mqtt from 'mqtt';
+import React, { useState, useEffect } from 'react';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Hello World2!
+          Hello World3!
         </a>
       </header>
     </div>
